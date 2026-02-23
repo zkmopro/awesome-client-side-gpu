@@ -150,25 +150,59 @@ See [Cross-Platform Frameworks](#cross-platform-frameworks) — the libraries be
 
 ### ZPrize Entries
 
-<!-- Entries added in Phase 4 -->
+[ZPrize](https://www.zprize.io) is an open competition that accelerates ZK hardware and software. The 2023 WebGPU track (Prize #2) produced the fastest known browser-native MSM implementations.
+
+- [td-kwj-zp2023/webgpu-msm-bls12-377](https://github.com/td-kwj-zp2023/webgpu-msm-bls12-377) - First-place ZPrize 2023 WebGPU MSM entry over BLS12-377. *(Primary entry: [WebGPU section](#webgpu-browser-native))* `GPU: WebGPU` `Curve: BLS12-377`
+
+- [td-kwj-zp2023/webgpu-msm-twisted-edwards](https://github.com/td-kwj-zp2023/webgpu-msm-twisted-edwards) - First-place ZPrize 2023 WebGPU MSM entry over Twisted Edwards curves. *(Primary entry: [WebGPU section](#webgpu-browser-native))* `GPU: WebGPU` `Curve: BLS12-377`
+
+- [demox-labs/webgpu-msm](https://github.com/demox-labs/webgpu-msm) - Official ZPrize 2023 baseline framework for the WebGPU MSM track. *(Primary entry: [WebGPU section](#webgpu-browser-native))* `GPU: WebGPU` `Curve: BLS12-377`
 
 ### Benchmarks and Metrics
 
-<!-- Entries added in Phase 4 -->
+- [moven0831/field-ops-benchmarks](https://github.com/moven0831/field-ops-benchmarks) - Comparative benchmarks for M31 and BN254 field operations across Metal and WebGPU backends, useful for selecting the right field for mobile proving. `GPU: Metal` `GPU: WebGPU` `Op: Field Arithmetic`
+
+- [ethproofs.org — client-side proving dashboard](https://ethproofs.org) - Live leaderboard tracking proof generation times and costs for client-side Ethereum proof systems across various hardware targets.
 
 ## Learning Resources
 
 ### Blog Posts and Articles
 
-<!-- Entries added in Phase 4 -->
+- [PSE: "Client-Side GPU for Everyday EF Privacy"](https://pse.dev/en/blog/client-side-gpu) - Privacy & Scaling Explorations overview of why GPU proving on user devices matters for Ethereum privacy applications.
+
+- [Penumbra: "Accelerating Client-Side Cryptography with WebGPU"](https://penumbra.zone/blog/webgpu) - Engineering deep-dive into Penumbra's pioneer WebGPU Groth16 prover, covering WGSL shader design and performance results.
+
+- [Mopro: "Metal MSM v2"](https://zkmopro.org/blog/metal-msm-v2) - Technical walkthrough of the second-generation Metal MSM implementation in zkmopro/gpu-acceleration, explaining the 40–100× CPU speedup.
+
+- [EZKL: Metal GPU acceleration for ZKML on Apple Silicon](https://blog.ezkl.xyz/post/metal) - Describes how ezkl integrates Metal compute shaders for ZK machine-learning inference on iOS and macOS devices.
+
+- [zkSecurity: "Accelerating ZK Proving with WebGPU"](https://www.zksecurity.xyz/blog/posts/webgpu) - Explores how WebGPU NTT shaders accelerate Stwo STARK proving in the browser.
+
+- [Geometry Research: "Accelerating Client-Side ZK with WebGPU"](https://geometryresearch.xyz/notebook/accelerating-client-side-zk-with-webgpu) - Introduces the MSL secp256k1 work and frames the broader opportunity for WebGPU in client-side ZK proving.
 
 ### Research Papers
 
-<!-- Entries added in Phase 4 -->
+- [cuZK: Accelerating Zero-Knowledge Proof with a Faster Parallel Multi-Scalar Multiplication Algorithm on GPUs](https://eprint.iacr.org/2022/1321) - IACR 2022/1321; introduces the cuZK MSM algorithm that underpins most WebGPU and Metal MSM implementations in this list. `Op: MSM`
 
 ## Related Lists
 
-<!-- Entries added in Phase 4 -->
+### WebGPU and GPU Compute
+
+- [mikbry/awesome-webgpu](https://github.com/mikbry/awesome-webgpu) - Comprehensive WebGPU ecosystem list covering specs, demos, shader libraries, and tutorials.
+
+- [rofrol/awesome-wgpu](https://github.com/rofrol/awesome-wgpu) - Curated resources for `wgpu`, the primary Rust WebGPU implementation used by many projects in this list.
+
+- [jslee02/awesome-gpgpu](https://github.com/jslee02/awesome-gpgpu) - General-purpose GPU compute frameworks including CUDA, OpenCL, and Vulkan Compute.
+
+- [goabiaryan/awesome-gpu-engineering](https://github.com/goabiaryan/awesome-gpu-engineering) - GPU architecture, optimization techniques, and Metal Performance Shaders resources.
+
+### Zero-Knowledge Proofs
+
+- [matter-labs/awesome-zero-knowledge-proofs](https://github.com/matter-labs/awesome-zero-knowledge-proofs) - Comprehensive ZKP educational resources covering theory, tools, and applications.
+
+- [ventali/awesome-zk](https://github.com/ventali/awesome-zk) - ZK resources spanning zkVMs, L1/L2 protocols, developer tools, and benchmarks.
+
+- [odradev/awesome-zero-knowledge](https://github.com/odradev/awesome-zero-knowledge) - Blockchain-focused ZK resources with a companion weekly newsletter at [zknewsletter.com](https://zknewsletter.com).
 
 ---
 
