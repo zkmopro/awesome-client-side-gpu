@@ -78,37 +78,73 @@ Both can achieve 10–100× speedups over CPU implementations when vectorised on
 
 ### Vulkan / ROCm / HIP (Cross-Platform Native)
 
-<!-- Entries added in Phase 3 -->
+See [Cross-Platform Frameworks](#cross-platform-frameworks) — the libraries below all support Vulkan/ROCm as one of their backends.
 
 ### Cross-Platform Frameworks
 
-<!-- Entries added in Phase 3 -->
+- [ingonyama-zk/icicle](https://github.com/ingonyama-zk/icicle) - Production-ready ZK acceleration library supporting CUDA, Metal, and ROCm backends, with iOS and Android support for mobile proving. `GPU: Multi` `Op: MSM` `Op: NTT` `Lang: C++` `Lang: Rust`
+
+- [tracel-ai/cubecl](https://github.com/tracel-ai/cubecl) - Unified GPU compute framework for Rust using a proc-macro kernel language that compiles to WebGPU, CUDA, ROCm, and Metal without per-backend rewrites. `GPU: Multi` `Op: Field Arithmetic` `Lang: Rust`
+
+- [lambdaclass/lambdaworks](https://github.com/lambdaclass/lambdaworks) - Full ZK cryptography library with GPU-accelerated FFT, MSM, and Merkle tree backends for CUDA and Metal. `GPU: Multi` `Op: FFT` `Op: MSM` `Lang: Rust`
+
+- [mratsim/constantine](https://github.com/mratsim/constantine) - High-performance elliptic-curve and pairing library in Nim with an experimental WebGPU backend and CUDA support via a runtime JIT compiler. `GPU: Multi` `Op: EC Arithmetic` `Op: MSM` `Lang: Nim`
+
+- [spaceandtimefdn/blitzar](https://github.com/spaceandtimefdn/blitzar) - C++ MSM and Pedersen commitment library with CUDA and CPU backends and published Rust bindings, targeting desktop and server environments. `GPU: CUDA` `Op: MSM` `Lang: C++` `Lang: Rust`
 
 ## Projects by Cryptographic Operation
 
 ### Multi-Scalar Multiplication (MSM)
 
-<!-- Cross-references added in Phase 4 -->
+*Primary entries are in the [GPU Technology sections](#projects-by-gpu-technology) above.*
+
+| Project | GPU | Curve |
+|---------|-----|-------|
+| [ICME-Lab/msm-webgpu](#webgpu-browser-native) | WebGPU | BN254 |
+| [td-kwj-zp2023/webgpu-msm-bls12-377](#webgpu-browser-native) | WebGPU | BLS12-377 |
+| [td-kwj-zp2023/webgpu-msm-twisted-edwards](#webgpu-browser-native) | WebGPU | BLS12-377 (Twisted Edwards) |
+| [demox-labs/webgpu-msm](#webgpu-browser-native) | WebGPU | BLS12-377 |
+| [zkmopro/gpu-acceleration](#metal-apple-silicon--ios--macos) | Metal | BN254 |
+| [ingonyama-zk/icicle](#cross-platform-frameworks) | Multi | Multi-curve |
+| [lambdaclass/lambdaworks](#cross-platform-frameworks) | Multi | Multi-curve |
+| [spaceandtimefdn/blitzar](#cross-platform-frameworks) | CUDA | Multi-curve |
 
 ### Number Theoretic Transform (NTT / FFT)
 
-<!-- Cross-references added in Phase 4 -->
+*Primary entries are in the [GPU Technology sections](#projects-by-gpu-technology) above.*
+
+| Project | GPU | Notes |
+|---------|-----|-------|
+| [demox-labs/webgpu-crypto](#webgpu-browser-native) | WebGPU | Research-stage |
+| [ingonyama-zk/icicle](#cross-platform-frameworks) | Multi | Production-ready |
+| [lambdaclass/lambdaworks](#cross-platform-frameworks) | Multi | Full ZK library |
 
 ### Field Arithmetic
 
-<!-- Cross-references added in Phase 4 -->
+| Project | GPU | Notes |
+|---------|-----|-------|
+| [tracel-ai/cubecl](#cross-platform-frameworks) | Multi | Kernel language targets any backend |
+| [mratsim/constantine](#cross-platform-frameworks) | Multi | Nim runtime JIT |
 
 ### Hash Functions
 
-<!-- Cross-references added in Phase 4 -->
+| Project | GPU | Notes |
+|---------|-----|-------|
+| [demox-labs/webgpu-crypto](#webgpu-browser-native) | WebGPU | Poseidon, Keccak research |
 
 ### Full Proof Systems
 
-<!-- Cross-references added in Phase 4 -->
+| Project | GPU | System | Notes |
+|---------|-----|--------|-------|
+| [penumbra-zone/webgpu](#webgpu-browser-native) | WebGPU | Groth16 | Archived pioneer |
+| [zkonduit/ezkl](#mobile-and-edge-proving) | Metal | PLONK / ZKML | iOS/macOS |
+| [zkmopro/mopro](#mobile-and-edge-proving) | Metal | Multi-prover | iOS mobile toolkit |
 
 ## Mobile and Edge Proving
 
-<!-- Entries added in Phase 3 -->
+- [zkmopro/mopro](https://github.com/zkmopro/mopro) - Multi-prover mobile toolkit for iOS using Metal GPU acceleration, exposing a unified Swift/Kotlin API over Halo2, Noir, and Circom backends. `GPU: Metal` `Op: Groth16` `Op: PLONK` `Lang: Rust`
+
+- [zkonduit/ezkl](https://github.com/zkonduit/ezkl) - ZK machine-learning inference library with Metal GPU support on iOS and macOS, delivering approximately 2× speedup over the CPU path. `GPU: Metal` `Op: ZKML` `Op: PLONK` `Lang: Rust`
 
 ## Competitions and Benchmarks
 
