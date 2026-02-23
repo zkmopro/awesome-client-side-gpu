@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linkcheck:
+    name: Link Checker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            README.md
+            --max-retries 3
+            --timeout 20
+            --exclude "localhost"
+            --exclude "example\.com"
+            --exclude "ethproofs\.org"
+          fail: true
+          jobSummary: true
+
+      - name: Create issue for broken links
+        if: failure()
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "CI: Broken links detected"
+          content-filepath: ./lychee/out.md
+          labels: broken-link, automated
+
+  lint:
+    name: Awesome Lint
+    runs-on: ubuntu-latest
+    # Only run on pushes to main to avoid token issues with fork PRs
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run awesome-lint
+        run: npx awesome-lint
