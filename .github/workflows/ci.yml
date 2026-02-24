@@ -36,8 +36,6 @@ jobs:
   lint:
     name: Awesome Lint
     runs-on: ubuntu-latest
-    # Only run on pushes to main to avoid token issues with fork PRs
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
 

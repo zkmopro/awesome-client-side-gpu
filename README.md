@@ -8,7 +8,7 @@
 
 ## Contents
 
-- [What Is Client-Side GPU Proving?](#what-is-client-side-gpu-proving)
+- [What Is Client-Side GPU Proving](#what-is-client-side-gpu-proving)
 - [GPU API Quick-Reference](#gpu-api-quick-reference)
 - [Projects by GPU Technology](#projects-by-gpu-technology)
   - [WebGPU (Browser-Native)](#webgpu-browser-native)
@@ -147,13 +147,13 @@ See the Cross-Platform Frameworks section below — the libraries below all supp
 
 ### Full Proof Systems
 
-<!--lint disable table-pipe-alignment table-cell-padding-->
+<!--lint disable table-pipe-alignment table-cell-padding awesome-spell-check-->
 | Project | GPU | System | Notes |
 |---------|-----|--------|-------|
 | penumbra-zone/webgpu | WebGPU | Groth16 | Archived pioneer |
 | zkonduit/ezkl | Metal | PLONK / ZKML | iOS/macOS |
 | zkmopro/mopro | Metal | Multi-prover | iOS mobile toolkit |
-<!--lint enable table-pipe-alignment table-cell-padding-->
+<!--lint enable table-pipe-alignment table-cell-padding awesome-spell-check-->
 
 ## Mobile and Edge Proving
 
@@ -189,7 +189,7 @@ the top-placing entries — `td-kwj-zp2023/webgpu-msm-bls12-377` (BLS12-377 MSM)
 
 ### Research Papers
 
-- [cuZK: Accelerating Zero-Knowledge Proof with a Faster Parallel Multi-Scalar Multiplication Algorithm on GPUs](https://eprint.iacr.org/2022/1321) - IACR 2022/1321; introduces the cuZK MSM algorithm that underpins most WebGPU and Metal MSM implementations in this list. `Op: MSM`
+- [cuZK: Accelerating Zero-Knowledge Proof with a Faster Parallel Multi-Scalar Multiplication Algorithm on GPUs](https://eprint.iacr.org/2022/1321) - IACR 2022/1321; introduces the cuZK MSM algorithm that underpins most WebGPU and Metal MSM implementations in this list. `Op: MSM`.
 
 ## Related Lists
 
