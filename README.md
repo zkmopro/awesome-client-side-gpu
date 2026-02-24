@@ -2,12 +2,11 @@
 
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/)
 
-> A curated list of GPU-accelerated cryptography and zero-knowledge proof projects that run on **user devices** — browsers, mobile phones, and desktops.
-
-> **"Client-side"** means the computation runs on the user's own hardware, not on a remote server or cloud cluster. This includes WebGPU in a browser, Metal on an iPhone, and Vulkan on a gaming laptop.
+> GPU-accelerated cryptography and zero-knowledge proof projects that run on **user devices** — browsers, phones, and desktops — not remote servers.
 
 ## Contents
 
+<!--lint disable double-link-->
 - [What Is Client-Side GPU Proving](#what-is-client-side-gpu-proving)
 - [GPU API Quick-Reference](#gpu-api-quick-reference)
 - [Projects by GPU Technology](#projects-by-gpu-technology)
@@ -28,21 +27,30 @@
 - [Learning Resources](#learning-resources)
   - [Blog Posts and Articles](#blog-posts-and-articles)
   - [Research Papers](#research-papers)
+<!--lint enable double-link-->
 
 ---
 
 ## What Is Client-Side GPU Proving
 
-Zero-knowledge proof systems require heavy arithmetic over finite fields and elliptic curves — operations that map naturally onto GPU parallelism. Traditionally, GPU acceleration was the domain of data-centre CUDA clusters. **Client-side GPU proving** brings the same speedups to ordinary user hardware: a browser tab, a smartphone, a laptop. This enables privacy-preserving applications that do not need to trust a remote server with sensitive inputs.
+Zero-knowledge proofs require heavy finite-field and elliptic-curve arithmetic that maps
+naturally onto GPU parallelism. **Client-side GPU proving** brings these speedups to
+ordinary user hardware — a browser tab, a smartphone, a laptop — so privacy-preserving
+applications never need to send sensitive inputs to a remote server.
 
-The two most impactful operations targeted by this list are:
+Six classes of operation benefit most from GPU acceleration:
 
 <!--lint disable awesome-list-item-->
-- **MSM (Multi-Scalar Multiplication):** the dominant cost in pairing-based proof systems (Groth16, PLONK, etc.).
-- **NTT (Number Theoretic Transform):** the core of STARK and FRI-based systems.
+- **MSM (Multi-Scalar Multiplication)** — dominant cost in pairing-based systems (Groth16, PLONK).
+- **NTT (Number Theoretic Transform)** — core of STARK and FRI-based systems.
+- **Polynomial evaluation and matrix-vector multiplication** — high-throughput linear algebra.
+- **Merkle tree commitments** — batch hashing for hash-based proof schemes.
+- **Sumcheck protocol** — multivariate polynomial reductions (GKR, WHIR).
+- **Linear encoding and hashing** — used in Basefold and Brakedown commitment schemes.
 <!--lint enable awesome-list-item-->
 
-Both can achieve 10–100× speedups over CPU implementations when vectorised on modern GPU hardware.
+MSM and NTT yield 10–100× speedups over CPU on modern GPU hardware and are the primary
+focus of most projects in this list.
 
 ## GPU API Quick-Reference
 
@@ -61,41 +69,45 @@ Both can achieve 10–100× speedups over CPU implementations when vectorised on
 
 ### WebGPU (Browser-Native)
 
-- [ICME-Lab/msm-webgpu](https://github.com/ICME-Lab/msm-webgpu) - WebGPU-accelerated MSM over BN254 using the cuZK algorithm, implemented in Rust and compiled to WGSL shaders. `GPU: WebGPU` `Curve: BN254` `Op: MSM` `Lang: Rust`.
+- [ICME-Lab/msm-webgpu](https://github.com/ICME-Lab/msm-webgpu) - MSM over BN254 using the cuZK algorithm, compiled to WGSL shaders. `GPU: WebGPU` `Curve: BN254` `Op: MSM` `Lang: Rust`.
 
-- [td-kwj-zp2023/webgpu-msm-bls12-377](https://github.com/td-kwj-zp2023/webgpu-msm-bls12-377) - Winning ZPrize 2023 entry for WebGPU MSM over BLS12-377, achieving top performance in the browser-native competition. `GPU: WebGPU` `Curve: BLS12-377` `Op: MSM` `Lang: TypeScript`.
+- [td-kwj-zp2023/webgpu-msm-bls12-377](https://github.com/td-kwj-zp2023/webgpu-msm-bls12-377) - Winning ZPrize 2023 entry for MSM over BLS12-377. `GPU: WebGPU` `Curve: BLS12-377` `Op: MSM` `Lang: TypeScript`.
 
-- [td-kwj-zp2023/webgpu-msm-twisted-edwards](https://github.com/td-kwj-zp2023/webgpu-msm-twisted-edwards) - ZPrize 2023 WebGPU MSM entry targeting Twisted Edwards curves, demonstrating efficient extended-coordinates arithmetic in WGSL. `GPU: WebGPU` `Curve: BLS12-377` `Op: MSM` `Lang: TypeScript`.
+- [td-kwj-zp2023/webgpu-msm-twisted-edwards](https://github.com/td-kwj-zp2023/webgpu-msm-twisted-edwards) - ZPrize 2023 MSM entry targeting Twisted Edwards curves with extended-coordinates arithmetic in WGSL. `GPU: WebGPU` `Curve: BLS12-377` `Op: MSM` `Lang: TypeScript`.
 
-- [demox-labs/webgpu-crypto](https://github.com/demox-labs/webgpu-crypto) - Research-stage WebGPU library covering MSM, NTT, and hash functions over BLS12-377 and BN254. `GPU: WebGPU` `Curve: BLS12-377` `Curve: BN254` `Op: MSM` `Op: NTT` `Op: Hash` `Lang: TypeScript`.
+- [demox-labs/webgpu-crypto](https://github.com/demox-labs/webgpu-crypto) - Research-stage library covering MSM, NTT, and hash functions over BLS12-377 and BN254. `GPU: WebGPU` `Curve: BLS12-377, BN254` `Op: MSM, NTT, Hash` `Lang: TypeScript`.
 
-- [demox-labs/webgpu-msm](https://github.com/demox-labs/webgpu-msm) - Baseline ZPrize 2023 reference framework for browser-native MSM over BLS12-377, used as a starting point by competition entrants. `GPU: WebGPU` `Curve: BLS12-377` `Op: MSM` `Lang: TypeScript`.
+- [demox-labs/webgpu-msm](https://github.com/demox-labs/webgpu-msm) - Baseline ZPrize 2023 reference for browser-native MSM over BLS12-377. `GPU: WebGPU` `Curve: BLS12-377` `Op: MSM` `Lang: TypeScript`.
 
 <!--lint disable awesome-spell-check-->
-- [penumbra-zone/webgpu](https://github.com/penumbra-zone/webgpu) - Pioneer WebGPU Groth16 prover for Penumbra's shielded transactions over BLS12-377; archived after proving the concept. `GPU: WebGPU` `Curve: BLS12-377` `Op: Groth16` `Lang: Rust` `Status: Archived`.
+- [penumbra-zone/webgpu](https://github.com/penumbra-zone/webgpu) - Pioneer Groth16 prover for Penumbra's shielded transactions over BLS12-377. `GPU: WebGPU` `Curve: BLS12-377` `Op: Groth16` `Lang: Rust` `Status: Archived`.
 <!--lint enable awesome-spell-check-->
+
+- [ligeroinc/ligero-prover](https://github.com/ligeroinc/ligero-prover) - Hash-based ZK prover using FFT-based polynomial IOPs, running in browsers via Dawn/Emscripten. `GPU: WebGPU` `Op: NTT, Hash` `Lang: C++`.
 
 ### Metal (Apple Silicon / iOS / macOS)
 
-- [zkmopro/gpu-acceleration](https://github.com/zkmopro/gpu-acceleration) - Metal MSM library for Apple Silicon achieving 40–100× speedup over ARM CPU, integrated into the mopro mobile proving toolkit. `GPU: Metal` `Curve: BN254` `Op: MSM` `Lang: Rust`.
+- [zkmopro/gpu-acceleration](https://github.com/zkmopro/gpu-acceleration) - Metal MSM library for Apple Silicon achieving 40–100× speedup over CPU, integrated into the mopro toolkit. `GPU: Metal` `Curve: BN254` `Op: MSM` `Lang: Rust`.
 
 - [geometryxyz/msl-secp256k1](https://github.com/geometryxyz/msl-secp256k1) - Metal Shading Language implementation of secp256k1 elliptic-curve arithmetic using Jacobian coordinates, targeting Apple Silicon GPUs. `GPU: Metal` `Curve: secp256k1` `Op: EC Arithmetic` `Lang: MSL`.
 
 ### Vulkan / ROCm / HIP (Cross-Platform Native)
 
-See the Cross-Platform Frameworks section below — the libraries below all support Vulkan/ROCm as one of their backends.
+<!--lint disable double-link-->
+The [Cross-Platform Frameworks](#cross-platform-frameworks) listed below all support Vulkan or ROCm as one of their backends.
+<!--lint enable double-link-->
 
 ### Cross-Platform Frameworks
 
-- [ingonyama-zk/icicle](https://github.com/ingonyama-zk/icicle) - Production-ready ZK acceleration library supporting CUDA, Metal, and ROCm backends, with iOS and Android support for mobile proving. `GPU: Multi` `Op: MSM` `Op: NTT` `Lang: C++` `Lang: Rust`.
+- [ingonyama-zk/icicle](https://github.com/ingonyama-zk/icicle) - Production-ready ZK acceleration library with CUDA, Metal, and ROCm backends and iOS/Android support. `GPU: Multi` `Op: MSM, NTT` `Lang: C++, Rust`.
 
-- [tracel-ai/cubecl](https://github.com/tracel-ai/cubecl) - Unified GPU compute framework for Rust using a proc-macro kernel language that compiles to WebGPU, CUDA, ROCm, and Metal without per-backend rewrites. `GPU: Multi` `Op: Field Arithmetic` `Lang: Rust`.
+- [tracel-ai/cubecl](https://github.com/tracel-ai/cubecl) - GPU compute framework for Rust using a proc-macro kernel language that compiles to WebGPU, CUDA, ROCm, and Metal. `GPU: Multi` `Op: Field Arithmetic` `Lang: Rust`.
 
-- [lambdaclass/lambdaworks](https://github.com/lambdaclass/lambdaworks) - Full ZK cryptography library with GPU-accelerated FFT, MSM, and Merkle tree backends for CUDA and Metal. `GPU: Multi` `Op: FFT` `Op: MSM` `Lang: Rust`.
+- [lambdaclass/lambdaworks](https://github.com/lambdaclass/lambdaworks) - Full ZK cryptography library with GPU-accelerated FFT, MSM, and Merkle tree backends for CUDA and Metal. `GPU: Multi` `Op: FFT, MSM` `Lang: Rust`.
 
-- [mratsim/constantine](https://github.com/mratsim/constantine) - High-performance elliptic-curve and pairing library in Nim with an experimental WebGPU backend and CUDA support via a runtime JIT compiler. `GPU: Multi` `Op: EC Arithmetic` `Op: MSM` `Lang: Nim`.
+- [mratsim/constantine](https://github.com/mratsim/constantine) - High-performance elliptic-curve and pairing library in Nim with experimental WebGPU and CUDA backends. `GPU: Multi` `Op: EC Arithmetic, MSM` `Lang: Nim`.
 
-- [spaceandtimefdn/blitzar](https://github.com/spaceandtimefdn/blitzar) - C++ MSM and Pedersen commitment library with CUDA and CPU backends and published Rust bindings, targeting desktop and server environments. `GPU: CUDA` `Op: MSM` `Lang: C++` `Lang: Rust`.
+- [spaceandtimefdn/blitzar](https://github.com/spaceandtimefdn/blitzar) - MSM and Pedersen commitment library with CUDA and CPU backends. `GPU: CUDA` `Op: MSM` `Lang: C++, Rust`.
 
 ## Projects by Cryptographic Operation
 
@@ -124,6 +136,7 @@ See the Cross-Platform Frameworks section below — the libraries below all supp
 | Project | GPU | Notes |
 |---------|-----|-------|
 | demox-labs/webgpu-crypto | WebGPU | Research-stage |
+| ligeroinc/ligero-prover | WebGPU | FFT-based polynomial IOPs |
 | ingonyama-zk/icicle | Multi | Production-ready |
 | lambdaclass/lambdaworks | Multi | Full ZK library |
 <!--lint enable table-pipe-alignment table-cell-padding-->
@@ -143,6 +156,7 @@ See the Cross-Platform Frameworks section below — the libraries below all supp
 | Project | GPU | Notes |
 |---------|-----|-------|
 | demox-labs/webgpu-crypto | WebGPU | Poseidon, Keccak research |
+| ligeroinc/ligero-prover | WebGPU | Hash-based proof system |
 <!--lint enable table-pipe-alignment table-cell-padding-->
 
 ### Full Proof Systems
@@ -151,15 +165,16 @@ See the Cross-Platform Frameworks section below — the libraries below all supp
 | Project | GPU | System | Notes |
 |---------|-----|--------|-------|
 | penumbra-zone/webgpu | WebGPU | Groth16 | Archived pioneer |
+| ligeroinc/ligero-prover | WebGPU | Ligero | Browser via Dawn/Emscripten |
 | zkonduit/ezkl | Metal | PLONK / ZKML | iOS/macOS |
 | zkmopro/mopro | Metal | Multi-prover | iOS mobile toolkit |
 <!--lint enable table-pipe-alignment table-cell-padding awesome-spell-check-->
 
 ## Mobile and Edge Proving
 
-- [zkmopro/mopro](https://github.com/zkmopro/mopro) - Multi-prover mobile toolkit for iOS using Metal GPU acceleration, exposing a unified Swift/Kotlin API over Halo2, Noir, and Circom backends. `GPU: Metal` `Op: Groth16` `Op: PLONK` `Lang: Rust`.
+- [zkmopro/mopro](https://github.com/zkmopro/mopro) - Multi-prover mobile toolkit exposing a unified Swift/Kotlin API over Halo2, Noir, and Circom backends. `GPU: Metal` `Op: Groth16, PLONK` `Lang: Rust`.
 
-- [zkonduit/ezkl](https://github.com/zkonduit/ezkl) - ZK machine-learning inference library with Metal GPU support on iOS and macOS, delivering approximately 2× speedup over the CPU path. `GPU: Metal` `Op: ZKML` `Op: PLONK` `Lang: Rust`.
+- [zkonduit/ezkl](https://github.com/zkonduit/ezkl) - ZK machine-learning inference library on iOS and macOS, delivering ~2× speedup over the CPU path. `GPU: Metal` `Op: ZKML, PLONK` `Lang: Rust`.
 
 ## Competitions and Benchmarks
 
@@ -167,13 +182,13 @@ See the Cross-Platform Frameworks section below — the libraries below all supp
 
 [ZPrize](https://www.zprize.io) is an open competition that accelerates ZK hardware and software.
 The 2023 WebGPU track (Prize #2) produced the fastest known browser-native MSM implementations;
-the top-placing entries — `td-kwj-zp2023/webgpu-msm-bls12-377` (BLS12-377 MSM),
-`td-kwj-zp2023/webgpu-msm-twisted-edwards` (Twisted Edwards MSM), and the official baseline
-`demox-labs/webgpu-msm` — are listed in the WebGPU section above.
+<!--lint disable double-link-->
+all entries are listed in the [WebGPU](#webgpu-browser-native) section above.
+<!--lint enable double-link-->
 
 ### Benchmarks and Metrics
 
-- [moven0831/field-ops-benchmarks](https://github.com/moven0831/field-ops-benchmarks) - Comparative benchmarks for M31 and BN254 field operations across Metal and WebGPU backends, useful for selecting the right field for mobile proving. `GPU: Metal` `GPU: WebGPU` `Op: Field Arithmetic`.
+- [moven0831/field-ops-benchmarks](https://github.com/moven0831/field-ops-benchmarks) - Benchmarks for M31 and BN254 field operations across Metal and WebGPU backends. `GPU: Metal, WebGPU` `Op: Field Arithmetic`.
 
 - [ethproofs.org — client-side proving dashboard](https://ethproofs.org) - Live leaderboard tracking proof generation times and costs for client-side Ethereum proof systems across various hardware targets.
 
@@ -186,6 +201,8 @@ the top-placing entries — `td-kwj-zp2023/webgpu-msm-bls12-377` (BLS12-377 MSM)
 - [zkSecurity: "Accelerating ZK Proving with WebGPU"](https://www.zksecurity.xyz/blog/posts/webgpu) - Explores how WebGPU NTT shaders accelerate Stwo STARK proving in the browser.
 
 - [Geometry Research: "Accelerating Client-Side ZK with WebGPU"](https://geometryresearch.xyz/notebook/accelerating-client-side-zk-with-webgpu) - Introduces the MSL secp256k1 work and frames the broader opportunity for WebGPU in client-side ZK proving.
+
+- [PSE: "Client-Side GPU Acceleration for ZK"](https://pse.dev/blog/client-side-gpu-everyday-ef-privacy) - Frames why client-side GPU proving matters for Ethereum privacy and surveys six key GPU-accelerable ZK primitives.
 
 ### Research Papers
 

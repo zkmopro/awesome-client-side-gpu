@@ -21,12 +21,14 @@ Add org/repo-name
 ## Entry Format
 
 ```
-- [org/repo](https://github.com/org/repo) - One sentence describing what the project does. `GPU: X` `Curve: Y` `Op: Z` `Lang: W`
+- [org/repo](https://github.com/org/repo) - One sentence describing what the project does. `GPU: X` `Curve: Y1, Y2` `Op: Z1, Z2` `Lang: W`
 ```
 
 Rules:
 - The description is a single sentence ending with a period (`.`).
 - At minimum, the `` `GPU:` `` tag must be present.
+- Group multiple values with commas inside a single backtick block (e.g., `` `Op: MSM, NTT` `` not `` `Op: MSM` `Op: NTT` ``).
+- Tag order: `GPU` → `Curve` → `Op` → `Lang` → `Status`.
 - No star counts — they go stale.
 - Archived or unmaintained repositories get an extra `` `Status: Archived` `` tag.
 - All URLs must be `https://`.
@@ -58,6 +60,9 @@ Use only the canonical values listed here to keep tags filterable.
 | `STARK` | STARK proof generation |
 | `PLONK` | PLONK / UltraPLONK proof generation |
 | `ZKML` | ZK for machine-learning inference |
+| `Polynomial Eval` | Polynomial evaluation / matrix-vector multiplication |
+| `Merkle` | Merkle tree commitments |
+| `Sumcheck` | Sumcheck protocol reductions |
 
 ### `Curve:`
 | Value | Curve |
