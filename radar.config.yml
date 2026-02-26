@@ -1,0 +1,73 @@
+description: >
+  A curated list of GPU-accelerated cryptography and zero-knowledge proof
+  projects that run on user devices — browsers, phones, and desktops — not
+  remote servers. Covers WebGPU, Metal, Vulkan, and cross-platform frameworks
+  for operations like MSM, NTT, field arithmetic, hash functions, and full
+  proof systems. Includes mobile/edge proving, ZPrize competition entries,
+  benchmarks, blog posts, and research papers.
+
+list_file: README.md
+
+sources:
+  github:
+    topics:
+      - client-side-gpu
+      - metal
+      - vulkan
+      - webgpu
+      - webgpu-cryptography
+      - zero-knowledge-proofs
+      - gpu-acceleration
+      - zkp-gpu
+      - webgpu-compute
+      - metal-gpu
+      - msm
+      - ntt
+      - client-side-proving
+      - mobile-zk
+    languages:
+      - rust
+      - typescript
+      - c++
+      - wgsl
+      - msl
+    min_stars: 5
+    created_after: "30d"
+  arxiv:
+    categories:
+      - cs.CR
+      - cs.DC
+    keywords:
+      - GPU zero-knowledge proof
+      - WebGPU cryptography
+      - multi-scalar multiplication GPU
+      - NTT GPU
+      - client-side proving
+      - mobile zero-knowledge
+  blogs:
+    feeds:
+      - https://zkmopro.org/blog/rss.xml
+      - https://www.zksecurity.xyz/blog/rss.xml
+      - https://pse.dev/blog
+      - https://blog.zksecurity.xyz/
+      - https://blog.lambdaclass.com/
+      - https://www.novanet.xyz/blog
+      - https://a16zcrypto.com/search/?q=jolt
+      - https://jolt.a16zcrypto.com/
+    keywords:
+      - WebGPU
+      - Metal GPU
+      - client-side proving
+      - GPU acceleration
+      - MSM
+      - NTT
+
+classification:
+  model: claude-sonnet-4-6
+  threshold: 60
+  max_issues_per_run: 5
+
+issue_template:
+  labels:
+    - radar
+    - needs-review

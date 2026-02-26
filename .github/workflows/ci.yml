@@ -22,6 +22,7 @@ jobs:
             --exclude "example\.com"
             --exclude "ethproofs\.org"
             --exclude "zknewsletter\.com"
+            --exclude "eprint\.iacr\.org"
           fail: true
           jobSummary: true
 
