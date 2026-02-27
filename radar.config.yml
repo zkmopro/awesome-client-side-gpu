@@ -47,10 +47,18 @@ sources:
   blogs:
     feeds:
       - https://zkmopro.org/blog/rss.xml
-      - https://www.zksecurity.xyz/blog/rss.xml
+      - https://blog.lambdaclass.com/rss/
+    keywords:
+      - WebGPU
+      - Metal GPU
+      - client-side proving
+      - GPU acceleration
+      - MSM
+      - NTT
+  web_pages:
+    urls:
       - https://pse.dev/blog
       - https://blog.zksecurity.xyz/
-      - https://blog.lambdaclass.com/
       - https://www.novanet.xyz/blog
       - https://a16zcrypto.com/search/?q=jolt
       - https://jolt.a16zcrypto.com/
